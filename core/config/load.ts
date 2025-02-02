@@ -384,6 +384,8 @@ async function intermediateToFinalConfig(
   // These context providers are always included, regardless of what, if anything,
   // the user has configured in config.json
 
+  console.log(config.contextProviders)
+
   const codebaseContextParams =
     (
       (config.contextProviders || [])
@@ -409,8 +411,11 @@ async function intermediateToFinalConfig(
 
   // Context providers
   const contextProviders: IContextProvider[] = DEFAULT_CONTEXT_PROVIDERS;
+  console.log(contextProviders)
 
   for (const provider of config.contextProviders || []) {
+    console.log(provider)
+    console.log("HELLOHELLO")
     if (isContextProviderWithParams(provider)) {
       const cls = contextProviderClassFromName(provider.name) as any;
       if (!cls) {
@@ -781,6 +786,9 @@ async function loadContinueConfigFromJson(
     overrideConfigJson,
     ide,
   );
+  console.log("SERIALIZED:")
+  console.log(serialized)
+  console.log(serialized?.contextProviders)
 
   if (!serialized || configLoadInterrupted) {
     return { errors, config: undefined, configLoadInterrupted: true };
@@ -798,9 +806,15 @@ async function loadContinueConfigFromJson(
     serialized,
     sharedConfig,
   );
+  console.log("WITH_SHARED:")
+  console.log(withShared)
+  console.log(withShared.contextProviders)
 
   // Convert serialized to intermediate config
   let intermediate = await serializedToIntermediateConfig(withShared, ide);
+  console.log("INTERMEDIATE:")
+  console.log(intermediate)
+  console.log(intermediate.contextProviders)
 
   // Apply config.ts to modify intermediate config
   const configJsContents = await buildConfigTsandReadConfigJs(ide, ideType);

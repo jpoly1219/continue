@@ -780,6 +780,7 @@ export type ContextProviderName =
   | "web"
   | "discord"
   | "clipboard"
+  | "extractor"
   | string;
 
 export type TemplateType =
