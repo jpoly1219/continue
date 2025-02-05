@@ -1,3 +1,6 @@
+import { extractContext } from "@jpoly1219/context-extractor";
+import { Language } from "@jpoly1219/context-extractor/dist/src/types.js";
+
 import { BaseContextProvider } from "../index.js";
 
 import type {
@@ -39,10 +42,18 @@ export class ExtractorContextProvider extends BaseContextProvider {
     };
   }
 
+
   async getContextItems(
     query: string,
     extras: ContextProviderExtras,
   ): Promise<ContextItem[]> {
+    const ctx = await extractContext(Language.TypeScript, "/home/jacob/projects/small-examples/context-extractor-test/booking/sketch.ts", "/home/jacob/projects/small-examples/context-extractor-test/booking/");
+
+    const obj = {
+      ...ctx,
+      relevantTypes: Object.fromEntries(ctx!.relevantTypes),
+      relevantHeaders: Object.fromEntries(ctx!.relevantHeaders),
+    };
     return [
       {
         name: "Test Type 1",
@@ -58,6 +69,11 @@ export class ExtractorContextProvider extends BaseContextProvider {
         name: "Test Header",
         description: "A dummy header for testing",
         content: "import { useState, useEffect } from 'react';"
+      },
+      {
+        name: "CTX",
+        description: "Extracted context.",
+        content: `${JSON.stringify(obj, null, 2)}`
       }
     ];
   }
