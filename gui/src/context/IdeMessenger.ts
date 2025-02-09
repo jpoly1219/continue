@@ -56,6 +56,13 @@ export interface IIdeMessenger {
     options?: LLMFullCompletionOptions,
   ): AsyncGenerator<ChatMessage[], PromptLog | undefined>;
 
+  dummyLlmStreamChat(
+    modelTitle: string,
+    cancelToken: AbortSignal | undefined,
+    messages: ChatMessage[],
+    options?: LLMFullCompletionOptions,
+  ): AsyncGenerator<ChatMessage[], PromptLog | undefined>;
+
   ide: IDE;
 }
 
@@ -268,6 +275,26 @@ export class IdeMessenger implements IIdeMessenger {
       next = await gen.next();
     }
     return next.value;
+  }
+
+  async *dummyLlmStreamChat(
+    modelTitle: string,
+    cancelToken: AbortSignal | undefined,
+    messages: ChatMessage[],
+    options: LLMFullCompletionOptions = {},
+  ): AsyncGenerator<ChatMessage[], PromptLog | undefined> {
+    const fakeResponses: ChatMessage[] = [
+      { role: "assistant", content: "This is a dummy response." },
+      { role: "assistant", content: "Here's another fake message." },
+    ];
+
+    for (const response of fakeResponses) {
+      yield [response]; // Yielding an array to match original function's output
+      await new Promise((resolve) => setTimeout(resolve, 50)); // Simulate delay
+    }
+
+    // return { promptTokens: 0, completionTokens: 0, totalTokens: 0 }; // Dummy token log
+    return undefined;
   }
 }
 
