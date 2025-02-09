@@ -31,7 +31,20 @@ export const streamNormalInput = createAsyncThunk<
     useTools && modelSupportsTools(defaultModel.model, defaultModel.provider);
 
   // Send request
-  const gen = extra.ideMessenger.llmStreamChat(
+  // const gen = extra.ideMessenger.llmStreamChat(
+  //   defaultModel.title,
+  //   streamAborter.signal,
+  //   messages,
+  //   includeTools
+  //     ? {
+  //         tools: state.config.config.tools.filter(
+  //           (tool) => toolSettings[tool.function.name] !== "disabled",
+  //         ),
+  //       }
+  //     : {},
+  // );
+
+  const gen = extra.ideMessenger.dummyLlmStreamChat(
     defaultModel.title,
     streamAborter.signal,
     messages,
