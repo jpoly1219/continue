@@ -116,6 +116,8 @@ export const streamResponseThunk = createAsyncThunk<
           }),
         );
 
+        // NOTE: messages is created here
+        // NOTE: this provider is not the context provider, but the AI service provider, such as `azure`
         // Construct messages from updated history
         const updatedHistory = getState().session.history;
         const messages = constructMessages(
@@ -124,6 +126,8 @@ export const streamResponseThunk = createAsyncThunk<
           defaultModel.provider,
           useTools,
         );
+
+        console.log(`messages: ${JSON.stringify(messages, null, 2)}`);
 
         posthog.capture("step run", {
           step_name: "User Input",

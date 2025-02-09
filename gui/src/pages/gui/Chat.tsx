@@ -287,6 +287,7 @@ export function Chat() {
         ? getMultifileEditPrompt(codeToEdit)
         : undefined;
 
+      // NOTE: This messes with the input submission
       dispatch(
         streamResponseThunk({ editorState, modifiers, promptPreamble, index }),
       );

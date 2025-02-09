@@ -363,6 +363,8 @@ export class Core {
           providerTitle: provider.description.title,
           itemId: uuidv4(),
         };
+        console.log(`id: ${JSON.stringify(id, null, 2)}`);
+        console.log(`provider: ${JSON.stringify(id, null, 2)}`);
 
         const items = await provider.getContextItems(query, {
           config,
@@ -375,6 +377,7 @@ export class Core {
           fetch: (url, init) =>
             fetchwithRequestOptions(url, init, config.requestOptions),
         });
+        console.log(`items: ${JSON.stringify(items, null, 2)}`);
 
         void Telemetry.capture(
           "useContextProvider",

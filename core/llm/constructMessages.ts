@@ -97,6 +97,8 @@ export function constructMessages(
     (item) => item.message.role !== "system",
   );
   const msgs: ChatMessage[] = [];
+  console.log(`history: ${history}`);
+  console.log(`provider: ${provider}`);
 
   const systemMessage = constructSystemPrompt(model, provider, useTools);
   if (systemMessage) {
